@@ -1,25 +1,63 @@
 package com.playrobot.tokens;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class TokensCommandHandler {
-	
-	public TokensCommandHandler() {}
-	
-	public void onCommand(CommandSender sender, String head, String[] args) {
+
+	File directory = new File("plugins/PrTokens");
+	File tokensFile = new File("plugins/PrTokens/Tokens.txt");
+
+	public TokensCommandHandler() {
+	}
+
+	public void onCommand(CommandSender sender, String head, String[] args, boolean isFromPlayer) {
 		if (head.equals("tokens")) {
 			if (args.length == 0) {
-				
-			}
-			if (args.length == 1) {
-				
+				if (!isFromPlayer) {
+					sender.sendMessage("Only players can have Donator Tokens!");
+				} else if (isFromPlayer) {
+					sender.sendMessage(ChatColor.GREEN + "You have " + ChatColor.GOLD + playerTokens(sender.getName()) + ChatColor.GREEN + " Donator Tokens!");
+				}
+			} else if (args.length == 1) {
+				sender.sendMessage(ChatColor.BLUE + args[0] + ChatColor.GREEN +  " has " + ChatColor.GOLD + playerTokens(args[0]) + ChatColor.GREEN + " Donator Tokens!");
+			} else {
+				sender.sendMessage(ChatColor.GREEN + "Correct Usage: /tokens or /tokens <player>");
 			}
 		}
 	}
-	
+
 	public int playerTokens(String playerName) {
-		
+
+		try {
+
+			FileInputStream info = new FileInputStream(tokensFile);
+			DataInputStream in = new DataInputStream(info);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+			String lineRead;
+
+			if ((lineRead = br.readLine()) != null) {
+				String[] components = lineRead.split(": ");
+				if (components[0].equals(playerName)) {
+					return Integer.valueOf(components[1]);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return 0;
 	}
 	
+	public void removeTokens() {
+		//CANNOT BE NEGATIVE (for playerTokens(other) to work)
+	}
 }

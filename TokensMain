@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TokensMain extends JavaPlugin {
-  
+	
 	TokensCommandHandler tokensCommandHandler;
 	
 	public void onEnable() {
@@ -19,7 +19,7 @@ public class TokensMain extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		boolean senderIsPlayer = sender instanceof Player ? true : false;
-		tokensCommandHandler.onCommand(senderIsPlayer, label, args);
+		tokensCommandHandler.onCommand(sender, label, args, senderIsPlayer);
 		return false;
 	}
 }

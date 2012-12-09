@@ -1,11 +1,12 @@
 package com.playrobot.tokens;
 
+import org.bukkit.command.CommandSender;
+
 public class TokensCommandHandler {
-  
+	
 	public TokensCommandHandler() {}
 	
-	public void onCommand(boolean fromPlayer, String head, String[] args) {
-		
+	public void onCommand(CommandSender sender, String head, String[] args) {
 		if (head.equals("tokens")) {
 			if (args.length == 0) {
 				
@@ -14,6 +15,11 @@ public class TokensCommandHandler {
 				
 			}
 		}
+	}
+	
+	public int playerTokens(String playerName) {
+		
+		return 0;
 	}
 	
 }

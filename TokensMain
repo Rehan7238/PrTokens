@@ -10,11 +10,10 @@ public class TokensMain extends JavaPlugin {
 	TokensCommandHandler tokensCommandHandler;
 	
 	public void onEnable() {
-		tokensCommandHandler = new TokensCommandHandler();
+		tokensCommandHandler = new TokensCommandHandler(this);
 	}
 	
 	public void onDisable() {
-		
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

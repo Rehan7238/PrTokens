@@ -5,10 +5,12 @@ import org.bukkit.command.CommandSender;
 
 public class TokensCommandHandler {
 
+	TokensMain tokensMain;
 	TokensFileHandler fileHandler;
 
-	public TokensCommandHandler() {
-		fileHandler = new TokensFileHandler();
+	public TokensCommandHandler(TokensMain tokensMain) {
+		this.tokensMain = tokensMain;
+		fileHandler = new TokensFileHandler(this);
 	}
 
 	public void onCommand(CommandSender sender, String head, String[] args, boolean isFromPlayer) {
@@ -36,7 +38,7 @@ public class TokensCommandHandler {
 					}
 				}
 				
-				fileHandler.changeTokens(true, args[0], Integer.valueOf(args[1]));
+				fileHandler.changeTokens(sender, true, args[0], Integer.valueOf(args[1]));
 				
 			} else {
 				sender.sendMessage(ChatColor.RED + "Correct Usage: /givetokens <playername> <amount>");
@@ -53,7 +55,7 @@ public class TokensCommandHandler {
 					}
 				}
 				
-				fileHandler.changeTokens(false, args[0], Integer.valueOf(args[1]));
+				fileHandler.changeTokens(sender, false, args[0], Integer.valueOf(args[1]));
 				
 			} else {
 				sender.sendMessage(ChatColor.RED + "Correct Usage: /taketokens <playername> <amount>");

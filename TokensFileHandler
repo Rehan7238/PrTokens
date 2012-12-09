@@ -11,39 +11,67 @@ import java.util.Map;
 
 public class TokensFileHandler {
 
-  File directory = new File("plugins/PrTokens");
+	File directory = new File("plugins/PrTokens");
 	File tokensFile = new File("plugins/PrTokens/Tokens.txt");
 	private Map<String, Integer> DonatorMap = new HashMap<String, Integer>();
 
 	public TokensFileHandler() {
 
-		try {
-
-			FileInputStream info = new FileInputStream(tokensFile);
-			DataInputStream in = new DataInputStream(info);
-			@SuppressWarnings("resource")
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-			String lineRead;
-
-			while ((lineRead = br.readLine()) != null) {
-				String[] components = lineRead.split(": ");
-				DonatorMap.put(components[0], Integer.valueOf(components[1]));
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
+		if (!tokensFile.exists()) {
+			try {
+				tokensFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else {
+			try {
+
+				FileInputStream info = new FileInputStream(tokensFile);
+				DataInputStream in = new DataInputStream(info);
+				@SuppressWarnings("resource")
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(in));
+
+				String lineRead;
+
+				while ((lineRead = br.readLine()) != null) {
+					String[] components = lineRead.split(": ");
+					DonatorMap.put(components[0],
+							Integer.valueOf(components[1]));
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void changeTokens(boolean giving, String playerName, int DonatorTokens) {
+		if (DonatorMap.containsKey(playerName)) {
+			if (giving) {
+			DonatorMap.put(playerName, DonatorMap.get(playerName) + DonatorTokens);
+			} else if (!giving) {
+				DonatorMap.put(playerName, DonatorMap.get(playerName) - DonatorTokens);
+				if (DonatorMap.get(playerName) < 0) {
+					DonatorMap.put(playerName, 0);
+				}
+			}
+ 		} else {
+			DonatorMap.put(playerName, DonatorTokens);
 		}
 	}
 	
 	public int playerTokens(String playerName) {
-		
+
 		for (int i = 0; i < DonatorMap.size(); i++) {
 			if (DonatorMap.containsKey(playerName)) {
 				return DonatorMap.get(playerName);
 			}
 		}
-		
+
 		return 0;
 	}
 }

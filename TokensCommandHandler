@@ -1,0 +1,19 @@
+package com.playrobot.tokens;
+
+public class TokensCommandHandler {
+  
+	public TokensCommandHandler() {}
+	
+	public void onCommand(boolean fromPlayer, String head, String[] args) {
+		
+		if (head.equals("tokens")) {
+			if (args.length == 0) {
+				
+			}
+			if (args.length == 1) {
+				
+			}
+		}
+	}
+	
+}

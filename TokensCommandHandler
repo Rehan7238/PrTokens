@@ -12,7 +12,7 @@ public class TokensCommandHandler {
 	}
 
 	public void onCommand(CommandSender sender, String head, String[] args, boolean isFromPlayer) {
-		if (head.equals("tokens")) {
+		if (head.equalsIgnoreCase("tokens")) {
 			if (args.length == 0) {
 				if (!isFromPlayer) {
 					sender.sendMessage("Only players can have Donator Tokens!");
@@ -22,7 +22,41 @@ public class TokensCommandHandler {
 			} else if (args.length == 1) {
 				sender.sendMessage(ChatColor.BLUE + args[0] + ChatColor.GREEN +  " has " + ChatColor.GOLD + fileHandler.playerTokens(args[0]) + ChatColor.GREEN + " Donator Tokens!");
 			} else {
-				sender.sendMessage(ChatColor.GREEN + "Correct Usage: /tokens or /tokens <player>");
+				sender.sendMessage(ChatColor.RED + "Correct Usage: /tokens or /tokens <player>");
+			}
+		}
+		
+		if (head.equalsIgnoreCase("givetokens")) {
+			if (args.length == 2) {
+				
+				for (int i = 0; i < args[1].length(); i++) {
+					if (!Character.isDigit(args[1].charAt(i))) {
+						sender.sendMessage(ChatColor.RED + args[1] + " is not a number!");
+						return;
+					}
+				}
+				
+				fileHandler.changeTokens(true, args[0], Integer.valueOf(args[1]));
+				
+			} else {
+				sender.sendMessage(ChatColor.RED + "Correct Usage: /givetokens <playername> <amount>");
+			}
+		}
+		
+		if (head.equalsIgnoreCase("taketokens")) {
+			if (args.length == 2) {
+				
+				for (int i = 0; i < args[1].length(); i++) {
+					if (!Character.isDigit(args[1].charAt(i))) {
+						sender.sendMessage(ChatColor.RED + args[1] + " is not a number!");
+						return;
+					}
+				}
+				
+				fileHandler.changeTokens(false, args[0], Integer.valueOf(args[1]));
+				
+			} else {
+				sender.sendMessage(ChatColor.RED + "Correct Usage: /taketokens <playername> <amount>");
 			}
 		}
 	}

@@ -1,0 +1,11 @@
+name: PrTokens
+version: 1.1
+description: Plugin for Donator Tokens!
+main: com.playrobot.tokens.TokensMain
+commands:
+    tokens:
+        description: Get the amount of Donator Tokens a player has.
+    givetokens:
+        description: Give a player Donator Tokens.
+    taketokens:
+        description: Remove a player's Donator Tokens.

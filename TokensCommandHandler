@@ -56,8 +56,4 @@ public class TokensCommandHandler {
 
 		return 0;
 	}
-	
-	public void removeTokens() {
-		//CANNOT BE NEGATIVE (for playerTokens(other) to work)
-	}
 }

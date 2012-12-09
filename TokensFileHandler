@@ -9,13 +9,18 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+
 public class TokensFileHandler {
 
+	TokensCommandHandler commandHandler;
 	File directory = new File("plugins/PrTokens");
 	File tokensFile = new File("plugins/PrTokens/Tokens.txt");
 	private Map<String, Integer> DonatorMap = new HashMap<String, Integer>();
 
-	public TokensFileHandler() {
+	public TokensFileHandler(TokensCommandHandler commandHandler) {
+		this.commandHandler = commandHandler;
 
 		if (!directory.exists()) {
 			directory.mkdir();
@@ -49,17 +54,25 @@ public class TokensFileHandler {
 		}
 	}
 	
-	public void changeTokens(boolean giving, String playerName, int DonatorTokens) {
+	public void changeTokens(CommandSender sender, boolean giving, String playerName, int DonatorTokens) {
 		if (DonatorMap.containsKey(playerName)) {
 			if (giving) {
-			DonatorMap.put(playerName, DonatorMap.get(playerName) + DonatorTokens);
+				DonatorMap.put(playerName, DonatorMap.get(playerName) + DonatorTokens);
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).isOnline()) {
+					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.GREEN + "You've been given " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens!");
+				}
+				sender.sendMessage(ChatColor.GREEN + "You've given " + ChatColor.BLUE + playerName + " "+ ChatColor.GOLD + DonatorTokens + ChatColor.GREEN + " Donator Tokens!");
 			} else if (!giving) {
 				DonatorMap.put(playerName, DonatorMap.get(playerName) - DonatorTokens);
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).isOnline()) {
+					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.BLUE + sender.getName() + ChatColor.GREEN + " took " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from you!");
+				}
+				sender.sendMessage(ChatColor.GREEN + "You've taken " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from " + ChatColor.BLUE + playerName + ChatColor.GREEN + "!");
 				if (DonatorMap.get(playerName) < 0) {
 					DonatorMap.put(playerName, 0);
 				}
 			}
- 		} else {
+		} else {
 			DonatorMap.put(playerName, DonatorTokens);
 		}
 	}

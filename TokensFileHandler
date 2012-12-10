@@ -93,7 +93,7 @@ public class TokensFileHandler {
 			}
 
 		} else {
-			if (!giving) {
+			if (giving) {
 				DonatorMap.put(playerName, DonatorTokens);
 				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).getPlayer().isOnline()) {
 					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.GREEN + "You've been given " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens!");

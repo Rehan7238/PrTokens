@@ -77,13 +77,13 @@ public class TokensFileHandler {
 		if (DonatorMap.containsKey(playerName)) {
 			if (giving) {
 				DonatorMap.put(playerName, DonatorMap.get(playerName) + DonatorTokens);
-				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).isOnline()) {
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).getPlayer().isOnline()) {
 					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.GREEN + "You've been given " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens!");
 				}
 				sender.sendMessage(ChatColor.GREEN + "You've given " + ChatColor.BLUE + playerName + " "+ ChatColor.GOLD + DonatorTokens + ChatColor.GREEN + " Donator Tokens!");
 			} else if (!giving) {
 				DonatorMap.put(playerName, DonatorMap.get(playerName) - DonatorTokens);
-				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).isOnline()) {
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).getPlayer().isOnline()) {
 					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.BLUE + sender.getName() + ChatColor.GREEN + " took " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from you!");
 				}
 				sender.sendMessage(ChatColor.GREEN + "You've taken " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from " + ChatColor.BLUE + playerName + ChatColor.GREEN + "!");
@@ -91,13 +91,25 @@ public class TokensFileHandler {
 					DonatorMap.put(playerName, 0);
 				}
 			}
-			
+
 		} else {
-			DonatorMap.put(playerName, DonatorTokens);
+			if (!giving) {
+				DonatorMap.put(playerName, DonatorTokens);
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).getPlayer().isOnline()) {
+					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.GREEN + "You've been given " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens!");
+				}
+				sender.sendMessage(ChatColor.GREEN + "You've given " + ChatColor.BLUE + playerName + " "+ ChatColor.GOLD + DonatorTokens + ChatColor.GREEN + " Donator Tokens!");
+			} else if (!giving) {
+				DonatorMap.put(playerName, 0);
+				if (commandHandler.tokensMain.getServer().getOfflinePlayer(playerName).getPlayer().isOnline()) {
+					commandHandler.tokensMain.getServer().getPlayer(playerName).sendMessage(ChatColor.BLUE + sender.getName() + ChatColor.GREEN + " took " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from you!");
+				}
+				sender.sendMessage(ChatColor.GREEN + "You've taken " + ChatColor.GOLD + DonatorTokens + ChatColor.GREEN +" Donator Tokens from " + ChatColor.BLUE + playerName + ChatColor.GREEN + "!");
+			}
 		}
-		
+
 		save();
-		
+
 	}
 	
 	public int playerTokens(String playerName) {
